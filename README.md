@@ -63,7 +63,7 @@ Content-Type: application/json
 }
 ```
 
-<iframe src="./temp/invoice-ORDER_12345-1752119673807.pdf" width="100%" height="300px"></iframe>
+[查看的PDF：invoice-ORDER_12345-1752119673807.pdf](./temp/invoice-ORDER_12345-1752119673807.pdf)
 
 ### 测试生成表格 PDF
 
@@ -75,7 +75,9 @@ Content-Type: application/json
   "reportId": "ORD-2023-12345"
 }
 ```
-<iframe src="./temp/report-ORD-2023-12345-1752119692106" width="100%" height="300px"></iframe>
+
+[查看的PDF：report-ORD-2023-12345-1752119692106.pdf](./temp/report-ORD-2023-12345-1752119692106.pdf)
+
 
 ## 项目结构
 
