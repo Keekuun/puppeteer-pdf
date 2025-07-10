@@ -110,7 +110,9 @@ router.get('/table/generate', async (req, res) => {
     // 3. (可选但推荐) 设置 Content-Length，让浏览器知道文件大小，可以显示下载进度
     res.setHeader('Content-Length', buffer.length);
     // res.send 会做一些额外的处理，导致浏览器访问该路由生成的pdf损坏了，无法打开
-    res.end(buffer)
+    // res.end(buffer)
+    // 或者直接使用 res.sendFile 发送文件
+    res.sendFile(filePath)
   } catch (error) {
     console.error("PDF generation failed:", error instanceof Error ? error.message : error);
     res.status(500).send('An error occurred while generating the PDF.');
