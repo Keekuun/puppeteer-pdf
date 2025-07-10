@@ -94,6 +94,11 @@ export const generatePdfFromData = async (
 
     await page.setContent(finalHtml, {waitUntil: 'networkidle0'});
 
+    const tempDir = path.join(process.cwd(), 'temp');
+    await fs.mkdir(tempDir, {recursive: true});
+    const fileName = `report-${data.orderId}-${Date.now()}.pdf`;
+    const filePath = path.join(tempDir, fileName);
+
     const pdfBuffer = await page.pdf({
       format: 'A4',
       printBackground: true,
@@ -114,7 +119,8 @@ export const generatePdfFromData = async (
         bottom: '60px',
         left: '30px',
         right: '30px'
-      }
+      },
+      path: filePath
     });
 
     // ✨ Buffer 大小
@@ -125,12 +131,8 @@ export const generatePdfFromData = async (
     }
 
     // 文件保存
-    const tempDir = path.join(process.cwd(), 'temp');
-    await fs.mkdir(tempDir, {recursive: true});
-    const fileName = `report-${data.orderId}-${Date.now()}.pdf`;
-    const filePath = path.join(tempDir, fileName);
-    await fs.writeFile(filePath, pdfBuffer);
-    console.log(`PDF successfully saved to: ${filePath}`);
+    // await fs.writeFile(filePath, pdfBuffer);
+    // console.log(`PDF successfully saved to: ${filePath}`);
 
     return {buffer: pdfBuffer, filePath: filePath};
 
