@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2022", // 编译成较新的JS版本，性能更好
+    "sourceMap": true,
+    "outDir": "./dist", // 编译后的JS文件输出目录
+    "rootDir": "./src", // TypeScript源文件根目录
+    "esModuleInterop": true,
+    "strict": true, // 开启所有严格类型检查选项
+    "skipLibCheck": true, // 跳过库文件的类型检查
+    "resolveJsonModule": true, // 允许导入 .json 文件
+    "module": "ESNext", // Vite 推荐使用 ESNext
+    "moduleResolution": "bundler", // 或者 'NodeNext'，更现代的解析策略
+    "isolatedModules": true, // Vite 需要这个
+    "baseUrl": ".", // 设置路径别名的基础目录为项目根目录
+    "paths": {
+      "@/*": ["src/*"] // 定义 @/ 指向 src/
+    }
+  },
+  "include": ["src/**/*"], // 指定需要编译的文件
+  "exclude": ["node_modules"] // 指定不需要编译的目录
+}

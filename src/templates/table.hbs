@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ reportTitle }}</title>
+  <style>
+    /* CSS Reset and Basic Typography */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      color: #333;
+      font-size: 10px; /* Base font size for PDF */
+    }
+
+    /* A4 Page Layout */
+    .page {
+      width: 210mm;
+      height: 297mm;
+      padding: 20mm;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    /* --- 页眉样式 --- */
+    .header {
+      position: sticky; /* 关键！这会让它在每一页重复 */
+      top: 0; /* 固定在页面顶部 */
+      left: 0;
+      right: 0;
+      height: 80px; /* 【重要】给页眉一个固定的高度 */
+
+      /* 其他样式 */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px; /* 内边距与页面左右边距一致 */
+      background-color: #f8f9fa;
+      border-bottom: 2px solid #dee2e6;
+      z-index: 1;
+    }
+
+
+    /* --- 页面布局定义 (这是魔法发生的地方) --- */
+    @page {
+      size: A4; /* 定义页面大小 */
+      /*margin: 100px 30px 60px 30px; !* 上边距100px, 右30px, 下边距60px, 左30px *!*/
+      /* 这个边距为页眉页脚提供了物理空间 */
+    }
+
+    /* ---- HEADER AND FOOTER with CSS ---- */
+    @media print {
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+
+    .logo {
+      max-width: 150px;
+      max-height: 12mm;
+    }
+
+    h1 {
+      color: #1a237e;
+      text-align: right;
+      margin: 0;
+    }
+
+    .report-body {
+      padding-top: 80px; /* Space for the fixed header */
+      padding-bottom: 40px; /* Space for the fixed footer */
+    }
+
+    .customer-info {
+      margin-top: 10mm;
+      margin-bottom: 10mm;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 5mm;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    thead {
+      background-color: #f2f2f2;
+      color: #333;
+    }
+
+    /* A very important rule to prevent table rows from being split across pages */
+    tr {
+      page-break-inside: avoid;
+    }
+
+    .total-section {
+      margin-top: 10mm;
+      text-align: right;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<!-- This div will be picked up by the @media print styles -->
+<!-- 1. 页眉元素 -->
+<header class="header">
+  <img src="{{logoImage}}" alt="Company Logo" class="logo">
+  <h1>{{ reportTitle }}</h1>
+</header>
+
+<div class="page">
+  <div class="report-body">
+    <div class="customer-info">
+      <strong>Bill To:</strong><br>
+      {{customer.name}}<br>
+      {{customer.address}}<br>
+      <strong>Order ID:</strong> {{orderId}}
+    </div>
+
+    <p>Here is a detailed breakdown of the activities for the period. Thank you for your business!</p>
+
+    <table>
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Item Description</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Total</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#each items}}
+        <tr>
+          <td>{{this.id}}</td>
+          <td>{{this.description}}</td>
+          <td>{{this.quantity}}</td>
+          <td>${{this.price}}</td>
+          <td>${{this.total}}</td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+
+    <div class="total-section">
+      Grand Total: ${{grandTotal}}
+    </div>
+
+    <div>
+      <img src="{{contentImage}}" alt="Content img" class="content-img">
+    </div>
+
+    <div class="notes-section" style="margin-top: 15mm; page-break-before: auto;">
+      <h3>Terms and Conditions</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit animi id est laborum.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
